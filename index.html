@@ -8,7 +8,7 @@
 <meta property="og:title" content="Mahym Beauty Salon · Book a visit">
 <meta property="og:description" content="Lashes, nails, hair and skin in International City, Dubai. Book on WhatsApp.">
 <meta property="og:image" content="img/hero.jpg">
-<meta name="theme-color" content="#fbf3f1">
+<meta name="theme-color" content="#FAF7F3">
 <link rel="preload" href="fonts/gambarino.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -29,17 +29,41 @@
     <header class="hero" id="top">
       <nav class="nav">
         <a class="navlink" href="#find" data-t="navfind">Find us</a>
-        <img class="logo" src="img/logo.png" alt="Mahym Meredova Beauty Salon" width="356" height="360">
+        <img class="logo" src="img/mark.png" alt="" width="220" height="150">
         <div class="lang" role="group" aria-label="Language">
           <button type="button" id="lang-en" aria-pressed="true" aria-label="English">EN</button>
           <button type="button" id="lang-ru" aria-pressed="false" aria-label="Русский">RU</button>
         </div>
       </nav>
-      <div class="hero-pic"><img src="img/hero.jpg" alt="Lash extensions made at Mahym Beauty Salon" width="1100" height="1375"></div>
-      <h1 class="title" data-t="h1">Book your visit to Mahym</h1>
-      <p class="lead" data-t="lead"></p>
-      <a class="btn" href="#treatments" data-t="cta">Book a visit</a>
+      <p class="brand">MAHYM MEREDOVA BEAUTY SALON</p>
+      <div class="hero-pic"><img src="img/hero.jpg" alt="" width="1086" height="1357"></div>
+      <h1 class="title" data-t="h1">Your Beauty, Your Moment.</h1>
+      <p class="lead" data-t="lead">Beauty treatments made for you in Dubai.</p>
+      <p class="tags" data-t="tags">Lashes · Nails · Hair · Skin</p>
+      <a class="btn" href="#treatments" data-t="cta">Book an Appointment</a>
     </header>
+
+    <div class="prog" id="prog" aria-hidden="true">
+      <span data-s="services"><i></i><b data-t="p1">Treatment</b></span>
+      <span data-s="day"><i></i><b data-t="p2">Date</b></span>
+      <span data-s="time"><i></i><b data-t="p3">Time</b></span>
+      <span data-s="name"><i></i><b data-t="p4">Name</b></span>
+    </div>
+
+    <section class="sec why" id="why">
+      <h2 data-t="h-why">Why Mahym</h2>
+      <ul class="facts">
+        <li><b data-t="w1t">One visit, several treatments</b><span data-t="w1">Lashes and nails together, so you leave fully done.</span></li>
+        <li><b data-t="w2t">Prices with everything included</b><span data-t="w2">Manicure includes any design, removal and refill.</span></li>
+        <li><b data-t="w3t">Open every day</b><span data-t="w3">From 10:00, in Spain Cluster, International City.</span></li>
+      </ul>
+      <div class="three">
+        <figure><img src="img/nails.jpg" alt="Soft pink almond nails with a gold Mahymbeauty ring" width="720" height="900" loading="lazy"><figcaption data-t="g1">Manicure</figcaption></figure>
+        <figure><img src="img/lash2.jpg" alt="Lash extensions, eye closed" width="900" height="1125" loading="lazy"><figcaption data-t="g2">Lash extensions</figcaption></figure>
+        <figure><img src="img/hair.jpg" alt="Hair after a keratin treatment" width="720" height="900" loading="lazy"><figcaption data-t="g3">Keratin</figcaption></figure>
+      </div>
+      <p class="note" data-t="gnote">Real work from our salon.</p>
+    </section>
 
     <section class="sec" id="treatments">
       <p class="step-n" data-t="st1">Step 1 of 4</p>
@@ -83,28 +107,15 @@
       </div>
 
       <div class="block" id="review">
-        <h2 data-t="h-review">Check your request</h2>
+        <h2 data-t="h-review">Your appointment request</h2>
         <dl class="recap" id="recap"></dl>
         <a class="btn inv" id="send" href="https://wa.me/971521934818"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.200s.9 2.5 1.1 2.700c.1.2 1.9 2.9 4.6 4 1.7.7 2.4.7 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg><span data-t="send">Book on WhatsApp</span></a>
         <p class="fine" data-t="fine">This opens WhatsApp with your request ready to send. Your booking is confirmed when the salon replies.</p>
       </div>
     </section>
 
-    <section class="sec work" id="work">
-      <h2 data-t="h-work">Work from our chairs</h2>
-      <button type="button" class="reel" id="reel" aria-label="Next photo">
-        <img class="on" src="img/nails.jpg" alt="Soft pink almond nails with a gold Mahymbeauty ring" width="720" height="900" loading="lazy">
-        <img src="img/lash2.jpg" alt="Lash extensions, eye closed" width="900" height="1125" loading="lazy">
-        <img src="img/hair.jpg" alt="Hair after a keratin treatment, straight and glossy" width="720" height="900" loading="lazy">
-        <img src="img/nails2.jpg" alt="French ombre nails" width="720" height="900" loading="lazy">
-        <img src="img/led.jpg" alt="LED mask during a facial" width="720" height="900" loading="lazy">
-        <img src="img/nails3.jpg" alt="Milky white almond nails" width="720" height="900" loading="lazy">
-      </button>
-      <p class="cap" id="cap" aria-live="polite"></p>
-    </section>
-
     <section class="sec find" id="find">
-      <div class="strip" aria-hidden="true"><div class="strip-in" id="strip"></div></div>
+      <img class="find-pic" src="img/interior.jpg" alt="" width="900" height="1125" loading="lazy">
       <h2 data-t="h-find">Find us in Spain Cluster</h2>
       <p class="addr"><span data-t="addr">Mahym Beauty Salon, Spain Cluster, International City, Dubai.</span> <span data-t="hours">Open every day from 10:00.</span></p>
       <div class="cells">
@@ -115,16 +126,16 @@
     </section>
 
     <footer class="foot">
-      <img class="logo" src="img/logo.png" alt="" width="356" height="360" loading="lazy">
+      <img class="logo" src="img/logo.png" alt="Mahym Meredova Beauty Salon" width="356" height="360" loading="lazy">
       <div class="word" id="word" aria-hidden="true"><span style="--i:0">M</span><span style="--i:1">a</span><span style="--i:2">h</span><span style="--i:3">y</span><span style="--i:4">m</span></div>
       <p data-t="foot">Lashes, nails, hair and skin. International City, Dubai.</p>
     </footer>
   </main>
 </div>
 
-<div class="bar" id="bar" hidden>
+<div class="bar" id="bar">
   <p><span id="bar-text"></span> <b id="bar-total"></b></p>
-  <a class="btn" id="bar-btn" href="#when">Choose a date</a>
+  <a class="btn" id="bar-btn" href="#treatments">Book now</a>
 </div>
 
 <script src="app.js"></script>
