@@ -18,7 +18,7 @@
   };
   var T={
     en:{navfind:'Find us',
-      lead:'Lashes, nails, hair and skin in International City, Dubai. Choose a treatment and a time, then send it to us on WhatsApp.',
+      h1:'Book your visit to Mahym',lead:'Lashes, nails, hair and skin in International City, Dubai. Choose a treatment, a day and a time, then send it to us on WhatsApp.',
       cta:'Choose a treatment','h-treat':'Treatments and prices','sub-treat':'Tap to add. You can pick several for one visit.',
       'h-when':'Day and time','sub-when':'Open every day from 10:00. Times are Dubai time.',
       lname:'Your name',lnote:'Wishes, optional',send:'Send request on WhatsApp',
@@ -32,7 +32,7 @@
       none:'Choose a treatment above to see your total.',chosen:function(n){return n+(n===1?' treatment':' treatments')},
       m:{hi:"Hello! I'd like to book a visit at Mahym Beauty Salon",sv:'Treatments',d:'Date',t:'Time',n:'Name',w:'Wishes',tot:'Total',end:'Is this time free?'}},
     ru:{navfind:'Как найти',
-      lead:'Ресницы, ногти, волосы и уход за кожей в International City, Дубай. Выберите услугу и время и отправьте заявку в WhatsApp.',
+      h1:'Запись в салон Mahym',lead:'Ресницы, ногти, волосы и уход за кожей в International City, Дубай. Выберите услугу, день и время и отправьте заявку в WhatsApp.',
       cta:'Выбрать услугу','h-treat':'Услуги и цены','sub-treat':'Нажмите, чтобы добавить. Можно выбрать несколько на один визит.',
       'h-when':'День и время','sub-when':'Работаем каждый день с 10:00. Время указано по Дубаю.',
       lname:'Ваше имя',lnote:'Пожелания, необязательно',send:'Отправить заявку в WhatsApp',
@@ -111,11 +111,18 @@
     show(band,it.img); if(inTreat) setStage(it.img);
   }
   function renderDays(){
-    var L=dayList();
-    $('range').textContent=fmt(L[0].date,{day:'numeric',month:'long'})+' \u2013 '+fmt(L[L.length-1].date,{day:'numeric',month:'long'});
-    $('days').innerHTML=L.map(function(d){
-      return '<button type="button" class="day" data-key="'+d.key+'" aria-pressed="'+(state.day===d.key)+'" aria-label="'+fmt(d.date,{weekday:'long',day:'numeric',month:'long'})+'">'
-        +'<span class="dw">'+fmt(d.date,{weekday:'short'}).replace('.','')+'</span><span class="dn">'+d.date.getUTCDate()+'</span></button>';
+    var L=dayList(), first=L[0].date, shift=(first.getUTCDay()+6)%7, start=first.getTime()-shift*864e5, cells=[], keys={};
+    L.forEach(function(d){keys[d.key]=1});
+    var weeks=Math.ceil((shift+L.length)/7);
+    for(var i=0;i<weeks*7;i++){ var dt=new Date(start+i*864e5); cells.push({date:dt,key:dt.toISOString().slice(0,10)}); }
+    var m1=fmt(L[0].date,{month:'long'}), m2=fmt(L[L.length-1].date,{month:'long'});
+    $('range').textContent=(m1===m2? m1 : m1+' \u2013 '+m2).replace(/^./,function(x){return x.toUpperCase()});
+    var dow=''; for(var k=0;k<7;k++) dow+='<span>'+fmt(cells[k].date,{weekday:'short'}).replace('.','')+'</span>';
+    $('dow').innerHTML=dow;
+    $('days').innerHTML=cells.map(function(c){
+      var ok=keys[c.key] && slotsFor(c.key).length;
+      return '<button type="button" class="day'+(c.key===L[0].key?' today':'')+'" data-key="'+c.key+'" aria-pressed="'+(state.day===c.key)+'"'+(ok?'':' disabled')
+        +' aria-label="'+fmt(c.date,{weekday:'long',day:'numeric',month:'long'})+'">'+c.date.getUTCDate()+'</button>';
     }).join('');
   }
   function renderTimes(){
@@ -173,7 +180,7 @@
   $('rows').addEventListener('mouseover',function(e){var b=e.target.closest('.row'); if(b && window.matchMedia('(hover:hover)').matches) setActive(b.getAttribute('data-id'));});
   $('rows').addEventListener('focusin',function(e){var b=e.target.closest('.row'); if(b) setActive(b.getAttribute('data-id'));});
   $('days').addEventListener('click',function(e){
-    var b=e.target.closest('.day'); if(!b) return;
+    var b=e.target.closest('.day'); if(!b||b.disabled) return;
     state.day=b.getAttribute('data-key'); hideErr('day'); renderDays(); renderTimes(); renderRecap();
   });
   $('times').addEventListener('click',function(e){

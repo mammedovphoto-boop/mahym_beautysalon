@@ -20,7 +20,7 @@
   <!-- the half that never moves (desktop) -->
   <aside class="stage">
     <div class="frame" id="stage">
-      <video class="pic on" data-k="hero" poster="img/lash_poster.jpg" muted loop playsinline autoplay preload="metadata"><source src="img/lash.mp4" type="video/mp4"></video>
+      <img class="pic on" data-k="hero" src="img/hero.jpg" alt="" width="1100" height="1375">
     </div>
   </aside>
 
@@ -28,17 +28,16 @@
 
     <header class="hero" id="top">
       <nav class="nav">
-        <div class="lang" role="group" aria-label="Language">
-          <button type="button" id="lang-en" aria-pressed="true">English</button>
-          <button type="button" id="lang-ru" aria-pressed="false">Русский</button>
-        </div>
         <a class="navlink" href="#find" data-t="navfind">Find us</a>
+        <img class="logo" src="img/logo.png" alt="Mahym Meredova Beauty Salon" width="356" height="360">
+        <div class="lang" role="group" aria-label="Language">
+          <button type="button" id="lang-en" aria-pressed="true" aria-label="English">EN</button>
+          <button type="button" id="lang-ru" aria-pressed="false" aria-label="Русский">RU</button>
+        </div>
       </nav>
-      <div class="hero-pic">
-        <video poster="img/lash_poster.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Close-up of lash extensions made at Mahym"><source src="img/lash.mp4" type="video/mp4"></video>
-      </div>
-      <h1 class="name"><span class="word">mahym</span><span class="vh"> Beauty Salon, International City, Dubai</span></h1>
-      <p class="lead" data-t="lead">Lashes, nails, hair and skin in International City, Dubai. Choose a treatment and a time, then send it to us on WhatsApp.</p>
+      <div class="hero-pic"><img src="img/hero.jpg" alt="Lash extensions made at Mahym Beauty Salon" width="1100" height="1375"></div>
+      <h1 class="title" data-t="h1">Book your visit to Mahym</h1>
+      <p class="lead" data-t="lead"></p>
       <a class="btn" href="#treatments" data-t="cta">Choose a treatment</a>
     </header>
 
@@ -54,6 +53,7 @@
       <h2 data-t="h-when">Day and time</h2>
       <p class="sub" data-t="sub-when">Open every day from 10:00. Times are Dubai time.</p>
       <p class="range" id="range"></p>
+      <div class="dow" id="dow" aria-hidden="true"></div>
       <div class="days" id="days"></div>
       <p class="err" id="err-day" hidden data-t="e2">Choose a day.</p>
       <div class="times" id="times"></div>
@@ -98,7 +98,6 @@
     </section>
 
     <footer class="foot">
-      <img src="img/logo.png" alt="Mahym Meredova Beauty Salon" width="356" height="360" loading="lazy">
       <p data-t="foot">Lashes, nails, hair and skin. International City, Dubai.</p>
     </footer>
   </main>
