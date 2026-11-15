@@ -2,16 +2,16 @@
   var PHONE='971521934818', OPEN=10, LAST=20, DAYS=14, TZ='Asia/Dubai';
 
   var ITEMS=[
-    {id:'lash', price:99, img:'lash', en:['Lash extensions','Any effect and volume you like: classic, cat eye, wet look.'], ru:['Наращивание ресниц','Любой эффект и объём: классика, cat eye, wet look.']},
-    {id:'nails', price:199, img:'nails', en:['Manicure, all inclusive','Any length, shape and design. French, ombre, cat eye. Removal and refill are in the price.'], ru:['Маникюр «всё включено»','Любая длина, форма и дизайн. Френч, омбре, cat eye. Снятие и коррекция входят в цену.']},
-    {id:'keratin', price:300, from:true, img:'hair', en:['Keratin for hair','Smooth, glossy hair. The price depends on length and thickness.'], ru:['Кератин для волос','Гладкие блестящие волосы. Цена зависит от длины и густоты.']},
-    {id:'rdf', price:250, img:'led', en:['Russian Deep Facial','A professional facial in 13 steps, finished under the LED mask.'], ru:['Russian Deep Facial','Профессиональный уход в 13 этапов, в конце LED-маска.']},
-    {id:'clean', price:250, img:'cleanse', en:['Deep cleansing facial','A thorough clean for clear, fresh skin.'], ru:['Глубокая чистка лица','Тщательное очищение для чистой и свежей кожи.']},
-    {id:'bio', price:250, img:'mask', en:['BioRePeel','A peel for glow and an even tone, with no downtime.'], ru:['BioRePeel','Пилинг для сияния и ровного тона, без восстановления.']},
-    {id:'mface', price:null, img:'cleanse', en:['Face massage','We will tell you the price on WhatsApp.'], ru:['Массаж лица','Цену подскажем в WhatsApp.']},
-    {id:'mbody', price:null, img:'room', en:['Body massage','We will tell you the price on WhatsApp.'], ru:['Массаж тела','Цену подскажем в WhatsApp.']}
+    {id:'lash', price:99, img:'s_lash', en:['Lash extensions','Any effect and volume you like: classic, cat eye, wet look.'], ru:['Наращивание ресниц','Любой эффект и объём: классика, cat eye, wet look.']},
+    {id:'nails', price:199, img:'s_nails', en:['Manicure, all inclusive','Any length, shape and design. French, ombre, cat eye. Removal and refill are in the price.'], ru:['Маникюр «всё включено»','Любая длина, форма и дизайн. Френч, омбре, cat eye. Снятие и коррекция входят в цену.']},
+    {id:'keratin', price:300, from:true, img:'s_hair', en:['Keratin for hair','Smooth, glossy hair. The price depends on length and thickness.'], ru:['Кератин для волос','Гладкие блестящие волосы. Цена зависит от длины и густоты.']},
+    {id:'rdf', price:250, img:'s_facial', en:['Russian Deep Facial','A professional facial in 13 steps, finished with a nourishing serum.'], ru:['Russian Deep Facial','Профессиональный уход в 13 этапов, в конце питательная сыворотка.']},
+    {id:'clean', price:250, img:'s_cleanse', en:['Deep cleansing facial','A thorough clean for clear, fresh skin.'], ru:['Глубокая чистка лица','Тщательное очищение для чистой и свежей кожи.']},
+    {id:'bio', price:250, img:'s_peel', en:['BioRePeel','A peel for glow and an even tone, with no downtime.'], ru:['BioRePeel','Пилинг для сияния и ровного тона, без восстановления.']},
+    {id:'mface', price:null, img:'s_mface', en:['Face massage','We will tell you the price on WhatsApp.'], ru:['Массаж лица','Цену подскажем в WhatsApp.']},
+    {id:'mbody', price:null, img:'s_mbody', en:['Body massage','We will tell you the price on WhatsApp.'], ru:['Массаж тела','Цену подскажем в WhatsApp.']}
   ];
-  var PICS=['lash','nails','hair','led','cleanse','mask','room'];
+  var PICS=['s_lash','s_nails','s_hair','s_facial','s_cleanse','s_peel','s_mface','s_mbody','interior'];
   var CAPS={
     en:['Soft pink almond, with our ring','Lash extensions, classic','After keratin','French ombre','LED mask, the last step of a facial','Milky white almond'],
     ru:['Нежно-розовый миндаль и наше кольцо','Наращивание ресниц, классика','После кератина','Френч-омбре','LED-маска, последний этап ухода','Молочный миндаль']
@@ -208,7 +208,7 @@
   reel.addEventListener('click',function(){ stop(); next(); play(); });
 
   /* ---- the strip of small pictures ---- */
-  var strip=$('strip'), order=['room','nails','lash2','hair','nails2','led','lash','nails3','hair2','mask'];
+  var strip=$('strip'), order=['interior','nails','lash2','hair','nails2','led','lash','nails3','hair2','mask'];
   order.concat(order).forEach(function(k){var im=new Image(); im.src='img/'+k+'.jpg'; im.alt=''; im.loading='lazy'; im.width=96; im.height=120; strip.appendChild(im);});
 
   /* ---- scroll: entrances, the active row, the stage, the bar ---- */
@@ -223,7 +223,7 @@
   if('IntersectionObserver' in window){
     new IntersectionObserver(function(es){ whenSeen=es[0].isIntersecting || es[0].boundingClientRect.top<0; updateBar(); },{threshold:0}).observe($('when'));
     new IntersectionObserver(function(es){ es[0].isIntersecting? play() : stop(); },{threshold:.4}).observe(reel);
-    var zones=[['top','hero'],['treatments',null],['when',null],['work','room'],['find','hero']];
+    var zones=[['top','hero'],['treatments',null],['when',null],['work','interior'],['find','hero']];
     zones.forEach(function(z){
       new IntersectionObserver(function(es){
         if(!es[0].isIntersecting) { if(z[0]==='treatments') inTreat=false; return; }
@@ -248,6 +248,6 @@
   /* open on a real working state: first day that still has times */
   var first=dayList().filter(function(d){return slotsFor(d.key).length})[0];
   state.day=first? first.key : dayList()[0].key;
-  show(band,'lash');
+  show(band,'s_lash');
   applyLang();
 })();
