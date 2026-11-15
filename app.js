@@ -25,7 +25,7 @@
       fine:'Nothing is charged. We reply on WhatsApp to confirm your time.',
       'h-work':'Work from our chairs','h-find':'Find us in Spain Cluster',
       addr:'Mahym Beauty Salon, Spain Cluster, International City, Dubai.',hours:'Open every day from 10:00.',
-      'c-map':'Open the map',foot:'Lashes, nails, hair and skin. International City, Dubai.',bar:'Choose a time',
+      'c-map':'Open the map',foot:'Lashes, nails, hair and skin. International City, Dubai.',bar:'Choose a time',barname:'Add your name',barsend:'Send on WhatsApp',
       e1:'Choose at least one treatment first.',e2:'Choose a day.',e3:'Choose a time.',e4:'Add your name so we know who is coming.',
       from:'from',ask:'ask us',today:'Today',tmrw:'Tomorrow',aed:'AED',
       ph:'Your name',phn:'Wishes, if any',noslots:'No more times today. Please pick another day.',
@@ -39,7 +39,7 @@
       fine:'Оплата не нужна. Мы ответим в WhatsApp и подтвердим время.',
       'h-work':'Наши работы','h-find':'Мы в Spain Cluster',
       addr:'Mahym Beauty Salon, Spain Cluster, International City, Дубай.',hours:'Каждый день с 10:00.',
-      'c-map':'Открыть карту',foot:'Ресницы, ногти, волосы и кожа. International City, Дубай.',bar:'Выбрать время',
+      'c-map':'Открыть карту',foot:'Ресницы, ногти, волосы и кожа. International City, Дубай.',bar:'Выбрать время',barname:'Указать имя',barsend:'Отправить в WhatsApp',
       e1:'Сначала выберите хотя бы одну услугу.',e2:'Выберите день.',e3:'Выберите время.',e4:'Напишите имя, чтобы мы знали, кого ждать.',
       from:'от',ask:'уточним',today:'Сегодня',tmrw:'Завтра',aed:'AED',
       ph:'Ваше имя',phn:'Пожелания, если есть',noslots:'На сегодня времени уже нет. Выберите другой день.',
@@ -51,7 +51,7 @@
   var lang='en';
   try{var s=localStorage.getItem('mahym-lang'); if(s==='ru'||s==='en') lang=s; else if((navigator.language||'').slice(0,2)==='ru') lang='ru';}
   catch(e){ if((navigator.language||'').slice(0,2)==='ru') lang='ru'; }
-  var state={svc:{},day:null,time:null,active:'lash'};
+  var state={svc:{},day:null,time:null,active:'lash'}, inTreat=false, sendSeen=false, wasReady=false;
   var TICK='<svg viewBox="0 0 14 14" fill="none" stroke="#fbf3f1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.4 5.9 10.2 11 4.3"/></svg>';
 
   /* pictures: the same set in the desktop stage and in the phone band */
@@ -95,6 +95,18 @@
     return sum? (open? t.from+' ':'')+sum+' '+t.aed : t.ask;
   }
 
+  var shown={};
+  function tick(el,txt){
+    var to=parseInt((txt.match(/\d+/)||[])[0],10), from=shown[el.id];
+    shown[el.id]=isNaN(to)?null:to;
+    if(isNaN(to)||from==null||from===to||window.matchMedia('(prefers-reduced-motion:reduce)').matches){ el.textContent=txt; return; }
+    var t0=performance.now();
+    (function step(now){
+      var p=Math.min(1,(now-t0)/450), e=1-Math.pow(1-p,3);
+      el.textContent=txt.replace(/\d+/,Math.round(from+(to-from)*e));
+      if(p<1 && shown[el.id]===to) requestAnimationFrame(step);
+    })(t0);
+  }
   function renderRows(){
     $('rows').innerHTML=ITEMS.map(function(it,i){
       var x=it[lang];
@@ -129,7 +141,7 @@
     var slots=slotsFor(state.day);
     if(state.time && slots.indexOf(state.time)<0) state.time=null;
     $('times').innerHTML=slots.length? slots.map(function(s){
-      return '<button type="button" class="time" data-time="'+s+'" aria-pressed="'+(state.time===s)+'">'+s+'</button>';
+      return '<button type="button" class="time" style="--i:'+slots.indexOf(s)+'" data-time="'+s+'" aria-pressed="'+(state.time===s)+'">'+s+'</button>';
     }).join('') : '<p class="none">'+T[lang].noslots+'</p>';
   }
   function dayObj(){return dayList().filter(function(x){return x.key===state.day})[0];}
@@ -156,11 +168,17 @@
     if(c.length) parts.push(c.map(function(it){return it[lang][0]}).join(', '));
     if(c.length && state.day && state.time) parts.push(fmt(dayObj().date,{weekday:'long',day:'numeric',month:'long'})+', '+state.time);
     $('recap-text').textContent=c.length? parts.join(' · ') : t.none;
-    $('recap-total').textContent=totalText();
+    tick($('recap-total'),totalText());
     $('bar-text').textContent=c.length? t.chosen(c.length) : '';
-    $('bar-total').textContent=totalText();
+    tick($('bar-total'),totalText());
+    var m=missing(), link='https://wa.me/'+PHONE+(m? '' : '?text='+encodeURIComponent(message()));
+    $('send').href=link;
+    if(!m && !wasReady){ $('send').classList.remove('ready'); void $('send').offsetWidth; $('send').classList.add('ready'); }
+    wasReady=!m;
+    var bb=$('bar-btn');
+    bb.textContent=m==='name'? t.barname : m? t.bar : t.barsend;
+    bb.href=m? '#when' : link; bb.setAttribute('data-m',m||'');
     updateBar();
-    $('send').href='https://wa.me/'+PHONE+(missing()? '' : '?text='+encodeURIComponent(message()));
   }
   function applyLang(){
     var t=T[lang]; document.documentElement.lang=lang;
@@ -182,10 +200,11 @@
   $('days').addEventListener('click',function(e){
     var b=e.target.closest('.day'); if(!b||b.disabled) return;
     state.day=b.getAttribute('data-key'); hideErr('day'); renderDays(); renderTimes(); renderRecap();
+    var tm=$('times'); tm.classList.remove('fresh'); void tm.offsetWidth; tm.classList.add('fresh');
   });
   $('times').addEventListener('click',function(e){
     var b=e.target.closest('.time'); if(!b) return;
-    state.time=b.getAttribute('data-time'); hideErr('time'); renderTimes(); renderRecap();
+    state.time=b.getAttribute('data-time'); hideErr('time'); $('times').classList.remove('fresh'); renderTimes(); renderRecap();
   });
   ['f-name','f-note'].forEach(function(id){$(id).addEventListener('input',function(){hideErr('name'); renderRecap();})});
   function setLang(l){lang=l; try{localStorage.setItem('mahym-lang',l)}catch(e){} applyLang();}
@@ -197,6 +216,10 @@
     var el=m==='services'? $('treatments') : m==='name'? $('f-name') : $('err-'+m);
     el.scrollIntoView({behavior:'smooth',block:m==='services'?'start':'center'});
     if(m==='name') $('f-name').focus({preventScroll:true});
+  });
+
+  $('bar-btn').addEventListener('click',function(e){
+    if(this.getAttribute('data-m')==='name'){ e.preventDefault(); $('f-name').scrollIntoView({behavior:'smooth',block:'center'}); $('f-name').focus({preventScroll:true}); }
   });
 
   /* ---- the work reel: one frame, contents change ---- */
@@ -212,8 +235,8 @@
   order.concat(order).forEach(function(k){var im=new Image(); im.src='img/'+k+'.jpg'; im.alt=''; im.loading='lazy'; im.width=96; im.height=120; strip.appendChild(im);});
 
   /* ---- scroll: entrances, the active row, the stage, the bar ---- */
-  var inTreat=false, sendSeen=false, whenSeen=false, io=null;
-  function updateBar(){ $('bar').hidden=!(chosen().length && !whenSeen); }
+  var io=null;
+  function updateBar(){ $('bar').hidden=!(chosen().length && !sendSeen); }
   function observe(){
     if(!('IntersectionObserver' in window)){ Array.prototype.forEach.call(document.querySelectorAll('.rv'),function(el){el.classList.add('in')}); return; }
     if(!io) io=new IntersectionObserver(function(es){es.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in'); io.unobserve(en.target);} })},{rootMargin:'0px 0px -8% 0px'});
@@ -221,7 +244,8 @@
   }
   Array.prototype.forEach.call(document.querySelectorAll('.sec > h2, .sec > .sub, .range, .days, .times, .fields, .recap, .reel, .addr, .cells, .foot img'),function(el,i){el.classList.add('rv');});
   if('IntersectionObserver' in window){
-    new IntersectionObserver(function(es){ whenSeen=es[0].isIntersecting || es[0].boundingClientRect.top<0; updateBar(); },{threshold:0}).observe($('when'));
+    new IntersectionObserver(function(es){ sendSeen=es[0].isIntersecting; updateBar(); },{threshold:.6}).observe($('send'));
+    new IntersectionObserver(function(es,o){ if(es[0].isIntersecting){ $('word').classList.add('in'); o.disconnect(); } },{threshold:.5}).observe($('word'));
     new IntersectionObserver(function(es){ es[0].isIntersecting? play() : stop(); },{threshold:.4}).observe(reel);
     var zones=[['top','hero'],['treatments',null],['when',null],['work','interior'],['find','hero']];
     zones.forEach(function(z){
