@@ -1,160 +1,172 @@
 (function(){
-  var PHONE='971521934818', OPEN=10, LAST=20, DAYS=14, TZ='Asia/Dubai';
-
+  /* ---- salon data: edit here ---- */
+  var PHONE='971521934818', OPEN=10, LAST=20, AHEAD=60, TZ='Asia/Dubai';
+  var CATS=['all','lashes','nails','hair','face','massage'];
+  /* dur = approximate minutes, to be confirmed by the salon */
   var ITEMS=[
-    {id:'lash', price:99, img:'s_lash', en:['Lash extensions','Any effect and volume you like: classic, cat eye, wet look.'], ru:['Наращивание ресниц','Любой эффект и объём: классика, cat eye, wet look.']},
-    {id:'nails', price:199, img:'s_nails', en:['Manicure, all inclusive','Any length, shape and design. French, ombre, cat eye. Removal and refill are in the price.'], ru:['Маникюр «всё включено»','Любая длина, форма и дизайн. Френч, омбре, cat eye. Снятие и коррекция входят в цену.']},
-    {id:'keratin', price:300, from:true, img:'s_hair', en:['Keratin for hair','Smooth, glossy hair. The price depends on length and thickness.'], ru:['Кератин для волос','Гладкие блестящие волосы. Цена зависит от длины и густоты.']},
-    {id:'rdf', price:250, img:'s_facial', en:['Russian Deep Facial','A professional facial in 13 steps, finished with a nourishing serum.'], ru:['Russian Deep Facial','Профессиональный уход в 13 этапов, в конце питательная сыворотка.']},
-    {id:'clean', price:250, img:'s_cleanse', en:['Deep cleansing facial','A thorough clean for clear, fresh skin.'], ru:['Глубокая чистка лица','Тщательное очищение для чистой и свежей кожи.']},
-    {id:'bio', price:250, img:'s_peel', en:['BioRePeel','A peel for glow and an even tone, with no downtime.'], ru:['BioRePeel','Пилинг для сияния и ровного тона, без восстановления.']},
-    {id:'mface', price:null, img:'s_mface', en:['Face massage','We will tell you the price on WhatsApp.'], ru:['Массаж лица','Цену подскажем в WhatsApp.']},
-    {id:'mbody', price:null, img:'s_mbody', en:['Body massage','We will tell you the price on WhatsApp.'], ru:['Массаж тела','Цену подскажем в WhatsApp.']}
+    {id:'lash', cat:'lashes', price:99, dur:120, img:'s_lash', en:['Lash extensions','Any effect and volume: classic, cat eye, wet look.'], ru:['Наращивание ресниц','Любой эффект и объём: классика, cat eye, wet look.']},
+    {id:'nails', cat:'nails', price:199, dur:90, img:'s_nails', en:['Manicure, all inclusive','Any length, shape and design. Removal and refill included.'], ru:['Маникюр «всё включено»','Любая длина, форма и дизайн. Снятие и коррекция включены.']},
+    {id:'keratin', cat:'hair', price:300, from:true, dur:150, img:'s_hair', en:['Keratin for hair','Smooth, glossy hair. Price depends on length and thickness.'], ru:['Кератин для волос','Гладкие блестящие волосы. Цена зависит от длины и густоты.']},
+    {id:'rdf', cat:'face', price:250, dur:60, img:'s_facial', en:['Russian Deep Facial','A professional facial in 13 steps.'], ru:['Russian Deep Facial','Профессиональный уход в 13 этапов.']},
+    {id:'clean', cat:'face', price:250, dur:60, img:'s_cleanse', en:['Deep cleansing facial','A thorough clean for clear, fresh skin.'], ru:['Глубокая чистка лица','Тщательное очищение для чистой и свежей кожи.']},
+    {id:'bio', cat:'face', price:250, dur:45, img:'s_peel', en:['BioRePeel','A peel for glow and an even tone, no downtime.'], ru:['BioRePeel','Пилинг для сияния и ровного тона, без восстановления.']},
+    {id:'mface', cat:'massage', price:null, dur:30, img:'s_mface', en:['Face massage','Lifting massage for a rested face.'], ru:['Массаж лица','Лифтинг-массаж для отдохнувшего лица.']},
+    {id:'mbody', cat:'massage', price:null, dur:60, img:'s_mbody', en:['Body massage','Relaxing massage of the back and body.'], ru:['Массаж тела','Расслабляющий массаж спины и тела.']}
   ];
-  var PICS=['s_lash','s_nails','s_hair','s_facial','s_cleanse','s_peel','s_mface','s_mbody','interior'];
   var CAPS={
-    en:['Soft pink almond, with our ring','Lash extensions, classic','After keratin','French ombre','LED mask, the last step of a facial','Milky white almond'],
-    ru:['Нежно-розовый миндаль и наше кольцо','Наращивание ресниц, классика','После кератина','Френч-омбре','LED-маска, последний этап ухода','Молочный миндаль']
+    en:['Soft pink almond, with our ring','Lash extensions, classic','After keratin','French ombre','LED mask during a facial','Milky white almond'],
+    ru:['Нежно-розовый миндаль и наше кольцо','Наращивание ресниц, классика','После кератина','Френч-омбре','LED-маска во время ухода','Молочный миндаль']
   };
   var T={
-    en:{navfind:'Find us',
-      h1:'Book your visit to Mahym',lead:'Lashes, nails, hair and skin in International City, Dubai. Choose a treatment, a day and a time, then send it to us on WhatsApp.',
-      cta:'Choose a treatment','h-treat':'Treatments and prices','sub-treat':'Tap to add. You can pick several for one visit.',
-      'h-when':'Day and time','sub-when':'Open every day from 10:00. Times are Dubai time.',
-      lname:'Your name',lnote:'Wishes, optional',send:'Send request on WhatsApp',
-      fine:'Nothing is charged. We reply on WhatsApp to confirm your time.',
+    en:{navfind:'Find us',h1:'Book your visit to Mahym',
+      lead:'Lashes, nails, hair and skin in International City, Dubai. Four short steps, and your request is in our WhatsApp.',
+      cta:'Book a visit',st1:'Step 1 of 4',st2:'Step 2 of 4',st3:'Step 3 of 4',st4:'Step 4 of 4',
+      'h-treat':'Choose a treatment','sub-treat':'You can pick several for one visit.',
+      'h-date':'Choose a date','h-time':'Preferred time','sub-time':'Dubai time. We confirm on WhatsApp whether this time is free.',
+      'h-name':'Your name','h-review':'Check your request',lname:'Your name',send:'Book on WhatsApp',
+      fine:'This opens WhatsApp with your request ready to send. Your booking is confirmed when the salon replies.',
       'h-work':'Work from our chairs','h-find':'Find us in Spain Cluster',
       addr:'Mahym Beauty Salon, Spain Cluster, International City, Dubai.',hours:'Open every day from 10:00.',
-      'c-map':'Open the map',foot:'Lashes, nails, hair and skin. International City, Dubai.',bar:'Choose a time',barname:'Add your name',barsend:'Send on WhatsApp',
-      e1:'Choose at least one treatment first.',e2:'Choose a day.',e3:'Choose a time.',e4:'Add your name so we know who is coming.',
-      from:'from',ask:'ask us',today:'Today',tmrw:'Tomorrow',aed:'AED',
-      ph:'Your name',phn:'Wishes, if any',noslots:'No more times today. Please pick another day.',
-      none:'Choose a treatment above to see your total.',chosen:function(n){return n+(n===1?' treatment':' treatments')},
-      m:{hi:"Hello! I'd like to book a visit at Mahym Beauty Salon",sv:'Treatments',d:'Date',t:'Time',n:'Name',w:'Wishes',tot:'Total',end:'Is this time free?'}},
-    ru:{navfind:'Как найти',
-      h1:'Запись в салон Mahym',lead:'Ресницы, ногти, волосы и уход за кожей в International City, Дубай. Выберите услугу, день и время и отправьте заявку в WhatsApp.',
-      cta:'Выбрать услугу','h-treat':'Услуги и цены','sub-treat':'Нажмите, чтобы добавить. Можно выбрать несколько на один визит.',
-      'h-when':'День и время','sub-when':'Работаем каждый день с 10:00. Время указано по Дубаю.',
-      lname:'Ваше имя',lnote:'Пожелания, необязательно',send:'Отправить заявку в WhatsApp',
-      fine:'Оплата не нужна. Мы ответим в WhatsApp и подтвердим время.',
+      'c-map':'Open the map',foot:'Lashes, nails, hair and skin. International City, Dubai.',
+      bar:'Choose a date',bartime:'Choose a time',barname:'Add your name',barsend:'Book on WhatsApp',
+      e1:'Choose at least one treatment first.',e2:'Choose a date.',e3:'Choose a time.',e4:'Add your name so we know who is coming.',
+      cat:{all:'All',lashes:'Lashes',nails:'Nails',hair:'Hair',face:'Face',massage:'Massage'},
+      from:'from',ask:'price on request',ph:'For example, Aisha',noslots:'No more times on this day. Please pick another one.',
+      h:'h',min:'min',prev:'Previous month',next:'Next month',
+      r:{sv:'Treatment',pr:'Price',du:'Duration',d:'Date',t:'Time',n:'Name'},notyet:'not chosen yet',
+      chosen:function(n){return n+(n===1?' treatment':' treatments')},
+      m:{hi:"Hello! I'd like to book a treatment.",sv:'Treatment',pr:'Price',d:'Date',t:'Time',n:'Name',end:'Could you please confirm my booking?'}},
+    ru:{navfind:'Как найти',h1:'Запись в салон Mahym',
+      lead:'Ресницы, ногти, волосы и уход за кожей в International City, Дубай. Четыре коротких шага, и заявка у нас в WhatsApp.',
+      cta:'Записаться',st1:'Шаг 1 из 4',st2:'Шаг 2 из 4',st3:'Шаг 3 из 4',st4:'Шаг 4 из 4',
+      'h-treat':'Выберите услугу','sub-treat':'Можно выбрать несколько на один визит.',
+      'h-date':'Выберите дату','h-time':'Желаемое время','sub-time':'Время по Дубаю. Свободно ли оно, подтвердим в WhatsApp.',
+      'h-name':'Ваше имя','h-review':'Проверьте заявку',lname:'Ваше имя',send:'Записаться через WhatsApp',
+      fine:'Откроется WhatsApp с готовым сообщением, его останется отправить. Запись подтверждена, когда салон ответит.',
       'h-work':'Наши работы','h-find':'Мы в Spain Cluster',
       addr:'Mahym Beauty Salon, Spain Cluster, International City, Дубай.',hours:'Каждый день с 10:00.',
-      'c-map':'Открыть карту',foot:'Ресницы, ногти, волосы и кожа. International City, Дубай.',bar:'Выбрать время',barname:'Указать имя',barsend:'Отправить в WhatsApp',
-      e1:'Сначала выберите хотя бы одну услугу.',e2:'Выберите день.',e3:'Выберите время.',e4:'Напишите имя, чтобы мы знали, кого ждать.',
-      from:'от',ask:'уточним',today:'Сегодня',tmrw:'Завтра',aed:'AED',
-      ph:'Ваше имя',phn:'Пожелания, если есть',noslots:'На сегодня времени уже нет. Выберите другой день.',
-      none:'Выберите услугу выше, и здесь появится сумма.',chosen:function(n){var a=n%10,b=n%100;return n+(a===1&&b!==11?' услуга':(a>=2&&a<=4&&(b<10||b>20)?' услуги':' услуг'))},
-      m:{hi:'Здравствуйте! Хочу записаться в Mahym Beauty Salon',sv:'Услуги',d:'Дата',t:'Время',n:'Имя',w:'Пожелания',tot:'Итого',end:'Это время свободно?'}}
+      'c-map':'Открыть карту',foot:'Ресницы, ногти, волосы и кожа. International City, Дубай.',
+      bar:'Выбрать дату',bartime:'Выбрать время',barname:'Указать имя',barsend:'Записаться через WhatsApp',
+      e1:'Сначала выберите хотя бы одну услугу.',e2:'Выберите дату.',e3:'Выберите время.',e4:'Напишите имя, чтобы мы знали, кого ждать.',
+      cat:{all:'Все',lashes:'Ресницы',nails:'Ногти',hair:'Волосы',face:'Лицо',massage:'Массаж'},
+      from:'от',ask:'цена по запросу',ph:'Например, Айша',noslots:'На этот день времени уже нет. Выберите другой.',
+      h:'ч',min:'мин',prev:'Предыдущий месяц',next:'Следующий месяц',
+      r:{sv:'Услуга',pr:'Стоимость',du:'Длительность',d:'Дата',t:'Время',n:'Имя'},notyet:'пока не выбрано',
+      chosen:function(n){var a=n%10,b=n%100;return n+(a===1&&b!==11?' услуга':(a>=2&&a<=4&&(b<10||b>20)?' услуги':' услуг'))},
+      m:{hi:'Здравствуйте! Хочу записаться на процедуру.',sv:'Услуга',pr:'Стоимость',d:'Дата',t:'Время',n:'Имя',end:'Подскажите, пожалуйста, можно ли подтвердить мою запись?'}}
   };
 
   var $=function(id){return document.getElementById(id)};
+  var each=function(list,fn){Array.prototype.forEach.call(list,fn)};
   var lang='en';
   try{var s=localStorage.getItem('mahym-lang'); if(s==='ru'||s==='en') lang=s; else if((navigator.language||'').slice(0,2)==='ru') lang='ru';}
   catch(e){ if((navigator.language||'').slice(0,2)==='ru') lang='ru'; }
-  var state={svc:{},day:null,time:null,active:'lash'}, inTreat=false, sendSeen=false, wasReady=false;
+  var state={svc:{},cat:'all',day:null,time:null,view:null}, sendSeen=false, wasReady=false, stagePic='hero', io=null;
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   var TICK='<svg viewBox="0 0 14 14" fill="none" stroke="#fbf3f1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.4 5.9 10.2 11 4.3"/></svg>';
 
-  /* pictures: the same set in the desktop stage and in the phone band */
-  var stage=$('stage'), band=$('band'), stagePic='hero';
-  PICS.forEach(function(k){
-    [stage,band].forEach(function(host){
-      var im=new Image(); im.className='pic'; im.alt=''; im.loading='lazy'; im.decoding='async';
-      im.setAttribute('data-k',k); im.src='img/'+k+'.jpg'; host.appendChild(im);
-    });
+  /* ---- the picture that stays (desktop) ---- */
+  var stage=$('stage');
+  ITEMS.map(function(it){return it.img}).concat(['interior']).forEach(function(k){
+    var im=new Image(); im.className='pic'; im.alt=''; im.loading='lazy'; im.decoding='async'; im.setAttribute('data-k',k); im.src='img/'+k+'.jpg'; stage.appendChild(im);
   });
-  function show(host,k){
-    Array.prototype.forEach.call(host.querySelectorAll('.pic'),function(p){p.classList.toggle('on',p.getAttribute('data-k')===k)});
-  }
-  function setStage(k){ if(k!==stagePic){stagePic=k; show(stage,k);} }
+  function setStage(k){ if(k===stagePic) return; stagePic=k; each(stage.querySelectorAll('.pic'),function(p){p.classList.toggle('on',p.getAttribute('data-k')===k)}); }
 
-  /* the salon's clock, whatever the visitor's time zone */
+  /* ---- time: the salon's clock, whatever the visitor's zone ---- */
   function dubaiNow(){
     var p={}; new Intl.DateTimeFormat('en-CA',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false})
       .formatToParts(new Date()).forEach(function(x){p[x.type]=x.value});
     return {y:+p.year,m:+p.month,d:+p.day,h:(+p.hour)%24,min:+p.minute};
   }
-  function dayList(){
-    var n=dubaiNow(), out=[], base=Date.UTC(n.y,n.m-1,n.d);
-    for(var i=0;i<DAYS;i++){var dt=new Date(base+i*864e5); out.push({key:dt.toISOString().slice(0,10),date:dt,i:i});}
-    return out;
-  }
-  function slotsFor(key){
-    var n=dubaiNow(), today=new Date(Date.UTC(n.y,n.m-1,n.d)).toISOString().slice(0,10), out=[];
+  function key(dt){return dt.toISOString().slice(0,10);}
+  function todayUTC(){var n=dubaiNow(); return Date.UTC(n.y,n.m-1,n.d);}
+  function slotsFor(k){
+    var n=dubaiNow(), out=[];
     for(var h=OPEN;h<=LAST;h++){
-      if(key===today && h < n.h+(n.min>0?2:1)) continue;   /* at least an hour's notice */
+      if(k===key(new Date(todayUTC())) && h < n.h+(n.min>0?2:1)) continue;   /* at least an hour's notice */
       out.push((h<10?'0':'')+h+':00');
     }
     return out;
   }
+  function bookable(k){var t=Date.parse(k+'T00:00:00Z'), t0=todayUTC(); return t>=t0 && t<=t0+AHEAD*864e5 && slotsFor(k).length>0;}
   function fmt(dt,o){o.timeZone='UTC'; return new Intl.DateTimeFormat(lang==='ru'?'ru-RU':'en-GB',o).format(dt);}
-  function chosen(){return ITEMS.filter(function(it){return state.svc[it.id]});}
-  function priceText(it){var t=T[lang]; return it.price==null? t.ask : (it.from? t.from+' ':'')+it.price+' '+t.aed;}
-  function totalText(){
-    var c=chosen(), t=T[lang], sum=0, open=false; if(!c.length) return '';
-    c.forEach(function(it){ if(it.price==null) open=true; else{sum+=it.price; if(it.from) open=true;} });
-    return sum? (open? t.from+' ':'')+sum+' '+t.aed : t.ask;
-  }
+  function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 
-  var shown={};
-  function tick(el,txt){
-    var to=parseInt((txt.match(/\d+/)||[])[0],10), from=shown[el.id];
-    shown[el.id]=isNaN(to)?null:to;
-    if(isNaN(to)||from==null||from===to||window.matchMedia('(prefers-reduced-motion:reduce)').matches){ el.textContent=txt; return; }
-    var t0=performance.now();
-    (function step(now){
-      var p=Math.min(1,(now-t0)/450), e=1-Math.pow(1-p,3);
-      el.textContent=txt.replace(/\d+/,Math.round(from+(to-from)*e));
-      if(p<1 && shown[el.id]===to) requestAnimationFrame(step);
-    })(t0);
+  /* ---- money and durations ---- */
+  function chosen(){return ITEMS.filter(function(it){return state.svc[it.id]});}
+  function priceText(it){var t=T[lang]; return it.price==null? t.ask : (it.from? t.from+' ':'')+it.price+' AED';}
+  function durText(min){var t=T[lang], h=Math.floor(min/60), m=min%60; return '≈ '+(h? h+' '+t.h+(m?' ':''):'')+(m? m+' '+t.min:'');}
+  function totalText(){
+    var c=chosen(), t=T[lang], sum=0, open=false, ask=false; if(!c.length) return '';
+    c.forEach(function(it){ if(it.price==null) ask=true; else{sum+=it.price; if(it.from) open=true;} });
+    if(!sum) return cap(t.ask);
+    return (open? t.from+' ':'')+sum+' AED'+(ask? ' + '+t.ask:'');
   }
-  function renderRows(){
-    $('rows').innerHTML=ITEMS.map(function(it,i){
+  function totalDur(){return chosen().reduce(function(a,it){return a+it.dur},0);}
+
+  /* ---- step 1 ---- */
+  function renderCats(){
+    $('cats').innerHTML=CATS.map(function(c){return '<button type="button" class="cat" data-c="'+c+'" aria-pressed="'+(state.cat===c)+'">'+T[lang].cat[c]+'</button>'}).join('');
+  }
+  function renderCards(){
+    var list=ITEMS.filter(function(it){return state.cat==='all'||it.cat===state.cat});
+    $('rows').innerHTML=list.map(function(it,i){
       var x=it[lang];
-      return '<button type="button" class="row rv'+(state.active===it.id?' active':'')+'" style="--d:'+(i*60)+'ms" data-id="'+it.id+'" data-img="'+it.img+'" aria-pressed="'+(!!state.svc[it.id])+'">'
-        +'<span class="tick">'+TICK+'</span><span class="nm">'+x[0]+'</span><span class="pr">'+priceText(it)+'</span>'
-        +'<span class="ds">'+x[1]+'</span></button>';
+      return '<button type="button" class="card rv" style="--d:'+(i*50)+'ms" data-id="'+it.id+'" data-img="'+it.img+'" aria-pressed="'+(!!state.svc[it.id])+'">'
+        +'<img src="img/'+it.img+'.jpg" alt="" width="96" height="120" loading="lazy">'
+        +'<span class="body"><span class="nm">'+x[0]+'</span><span class="ds">'+x[1]+'</span>'
+        +'<span class="meta"><span class="pr">'+priceText(it)+'</span><span class="du">'+durText(it.dur)+'</span></span></span>'
+        +'<span class="tick">'+TICK+'</span></button>';
     }).join('');
     observe();
   }
-  function setActive(id){
-    if(state.active===id) return; state.active=id;
-    Array.prototype.forEach.call($('rows').children,function(r){r.classList.toggle('active',r.getAttribute('data-id')===id)});
-    var it=ITEMS.filter(function(x){return x.id===id})[0];
-    show(band,it.img); if(inTreat) setStage(it.img);
-  }
-  function renderDays(){
-    var L=dayList(), first=L[0].date, shift=(first.getUTCDay()+6)%7, start=first.getTime()-shift*864e5, cells=[], keys={};
-    L.forEach(function(d){keys[d.key]=1});
-    var weeks=Math.ceil((shift+L.length)/7);
-    for(var i=0;i<weeks*7;i++){ var dt=new Date(start+i*864e5); cells.push({date:dt,key:dt.toISOString().slice(0,10)}); }
-    var m1=fmt(L[0].date,{month:'long'}), m2=fmt(L[L.length-1].date,{month:'long'});
-    $('range').textContent=(m1===m2? m1 : m1+' \u2013 '+m2).replace(/^./,function(x){return x.toUpperCase()});
-    var dow=''; for(var k=0;k<7;k++) dow+='<span>'+fmt(cells[k].date,{weekday:'short'}).replace('.','')+'</span>';
+
+  /* ---- step 2: a real month calendar ---- */
+  function renderCal(fresh){
+    var t0=todayUTC(), first=new Date(t0), last=new Date(t0+AHEAD*864e5);
+    if(!state.view) state.view={y:first.getUTCFullYear(),m:first.getUTCMonth()};
+    var v=state.view, start=new Date(Date.UTC(v.y,v.m,1)), days=new Date(Date.UTC(v.y,v.m+1,0)).getUTCDate(), shift=(start.getUTCDay()+6)%7;
+    $('range').textContent=cap(fmt(start,{month:'long',year:'numeric'}));
+    $('prev').disabled=(v.y===first.getUTCFullYear() && v.m===first.getUTCMonth());
+    $('next').disabled=(v.y===last.getUTCFullYear() && v.m===last.getUTCMonth());
+    $('prev').setAttribute('aria-label',T[lang].prev); $('next').setAttribute('aria-label',T[lang].next);
+    var mon=new Date(Date.UTC(2024,0,1)), dow='';
+    for(var i=0;i<7;i++) dow+='<span>'+fmt(new Date(mon.getTime()+i*864e5),{weekday:'short'}).replace('.','')+'</span>';
     $('dow').innerHTML=dow;
-    $('days').innerHTML=cells.map(function(c){
-      var ok=keys[c.key] && slotsFor(c.key).length;
-      return '<button type="button" class="day'+(c.key===L[0].key?' today':'')+'" data-key="'+c.key+'" aria-pressed="'+(state.day===c.key)+'"'+(ok?'':' disabled')
-        +' aria-label="'+fmt(c.date,{weekday:'long',day:'numeric',month:'long'})+'">'+c.date.getUTCDate()+'</button>';
-    }).join('');
+    var html=''; for(var b=0;b<shift;b++) html+='<span class="day off"></span>';
+    for(var d=1;d<=days;d++){
+      var dt=new Date(Date.UTC(v.y,v.m,d)), k=key(dt);
+      html+='<button type="button" class="day'+(dt.getTime()===t0?' today':'')+'" style="--i:'+(shift+d)+'" data-key="'+k+'" aria-pressed="'+(state.day===k)+'"'+(bookable(k)?'':' disabled')
+        +' aria-label="'+fmt(dt,{weekday:'long',day:'numeric',month:'long'})+'">'+d+'</button>';
+    }
+    var el=$('days'); el.innerHTML=html;
+    if(fresh && !reduce){ el.classList.remove('fresh'); void el.offsetWidth; el.classList.add('fresh'); } else el.classList.remove('fresh');
   }
-  function renderTimes(){
+  function moveMonth(n){ var v=state.view, d=new Date(Date.UTC(v.y,v.m+n,1)); state.view={y:d.getUTCFullYear(),m:d.getUTCMonth()}; renderCal(true); }
+
+  /* ---- step 3 ---- */
+  function renderTimes(fresh){
+    var el=$('times');
+    if(!state.day){ el.innerHTML='<p class="none">'+T[lang].e2+'</p>'; return; }
     var slots=slotsFor(state.day);
     if(state.time && slots.indexOf(state.time)<0) state.time=null;
-    $('times').innerHTML=slots.length? slots.map(function(s){
-      return '<button type="button" class="time" style="--i:'+slots.indexOf(s)+'" data-time="'+s+'" aria-pressed="'+(state.time===s)+'">'+s+'</button>';
+    el.innerHTML=slots.length? slots.map(function(s,i){
+      return '<button type="button" class="time" style="--i:'+i+'" data-time="'+s+'" aria-pressed="'+(state.time===s)+'">'+s+'</button>';
     }).join('') : '<p class="none">'+T[lang].noslots+'</p>';
+    if(fresh && !reduce){ el.classList.remove('fresh'); void el.offsetWidth; el.classList.add('fresh'); } else el.classList.remove('fresh');
   }
-  function dayObj(){return dayList().filter(function(x){return x.key===state.day})[0];}
+
+  /* ---- review and the WhatsApp message ---- */
+  function dayText(){return state.day? cap(fmt(new Date(state.day+'T00:00:00Z'),{weekday:'long',day:'numeric',month:'long'})) : '';}
   function message(){
-    var m=T[lang].m, c=chosen(), L=[m.hi,'',m.sv+':'];
-    c.forEach(function(it){L.push('• '+it[lang][0]+' ('+priceText(it)+')')});
-    L.push(m.d+': '+fmt(dayObj().date,{weekday:'long',day:'numeric',month:'long'}), m.t+': '+state.time);
-    var name=$('f-name').value.trim(), note=$('f-note').value.trim();
-    if(name) L.push(m.n+': '+name);
-    if(note) L.push(m.w+': '+note);
-    if(c.length>1) L.push(m.tot+': '+totalText());
-    L.push('',m.end);
-    return L.join('\n');
+    var m=T[lang].m, c=chosen();
+    return [m.hi,'',
+      m.sv+': '+c.map(function(it){return it[lang][0]}).join(', '),'',
+      m.pr+': '+totalText(),'',
+      m.d+': '+dayText(),'',
+      m.t+': '+state.time,'',
+      m.n+': '+$('f-name').value.trim(),'',
+      m.end].join('\n');
   }
   function missing(){
     if(!chosen().length) return 'services';
@@ -163,12 +175,23 @@
     if(!$('f-name').value.trim()) return 'name';
     return null;
   }
+  var shown={};
+  function tick(el,txt){
+    var to=parseInt((txt.match(/\d+/)||[])[0],10), from=shown[el.id];
+    shown[el.id]=isNaN(to)?null:to;
+    if(isNaN(to)||from==null||from===to||reduce){ el.textContent=txt; return; }
+    var t0=performance.now();
+    (function step(now){
+      var p=Math.min(1,(now-t0)/450), e=1-Math.pow(1-p,3);
+      el.textContent=txt.replace(/\d+/,Math.round(from+(to-from)*e));
+      if(p<1 && shown[el.id]===to) requestAnimationFrame(step);
+    })(t0);
+  }
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]});}
   function renderRecap(){
-    var t=T[lang], c=chosen(), parts=[];
-    if(c.length) parts.push(c.map(function(it){return it[lang][0]}).join(', '));
-    if(c.length && state.day && state.time) parts.push(fmt(dayObj().date,{weekday:'long',day:'numeric',month:'long'})+', '+state.time);
-    $('recap-text').textContent=c.length? parts.join(' · ') : t.none;
-    tick($('recap-total'),totalText());
+    var t=T[lang], c=chosen(), name=$('f-name').value.trim();
+    var rows=[[t.r.sv, c.map(function(it){return it[lang][0]}).join(', ')],[t.r.pr,totalText()],[t.r.du, c.length? durText(totalDur()):''],[t.r.d,dayText()],[t.r.t,state.time||''],[t.r.n,name]];
+    $('recap').innerHTML=rows.map(function(r){return '<div><dt>'+r[0]+'</dt><dd'+(r[1]?'':' class="empty"')+'>'+(r[1]? esc(r[1]) : t.notyet)+'</dd></div>'}).join('');
     $('bar-text').textContent=c.length? t.chosen(c.length) : '';
     tick($('bar-total'),totalText());
     var m=missing(), link='https://wa.me/'+PHONE+(m? '' : '?text='+encodeURIComponent(message()));
@@ -176,102 +199,84 @@
     if(!m && !wasReady){ $('send').classList.remove('ready'); void $('send').offsetWidth; $('send').classList.add('ready'); }
     wasReady=!m;
     var bb=$('bar-btn');
-    bb.textContent=m==='name'? t.barname : m? t.bar : t.barsend;
-    bb.href=m? '#when' : link; bb.setAttribute('data-m',m||'');
-    updateBar();
+    bb.textContent=m==='name'? t.barname : m==='time'? t.bartime : m? t.bar : t.barsend;
+    bb.href=m==='time'? '#step-time' : m==='name'? '#step-name' : m? '#when' : link; bb.setAttribute('data-m',m||'');
+    $('bar').hidden=!(c.length && !sendSeen);
   }
   function applyLang(){
     var t=T[lang]; document.documentElement.lang=lang;
-    Array.prototype.forEach.call(document.querySelectorAll('[data-t]'),function(el){var k=el.getAttribute('data-t'); if(typeof t[k]==='string') el.textContent=t[k];});
-    $('f-name').placeholder=t.ph; $('f-note').placeholder=t.phn;
+    each(document.querySelectorAll('[data-t]'),function(el){var k=el.getAttribute('data-t'); if(typeof t[k]==='string') el.textContent=t[k];});
+    $('f-name').placeholder=t.ph;
     $('lang-en').setAttribute('aria-pressed',lang==='en'); $('lang-ru').setAttribute('aria-pressed',lang==='ru');
-    renderRows(); renderDays(); renderTimes(); renderRecap(); setCap();
+    renderCats(); renderCards(); renderCal(false); renderTimes(false); renderRecap(); setCap();
   }
   function hideErr(k){$('err-'+k).hidden=true;}
 
   /* ---- events ---- */
-  $('rows').addEventListener('click',function(e){
-    var b=e.target.closest('.row'); if(!b) return;
-    var id=b.getAttribute('data-id'); state.svc[id]=!state.svc[id];
-    b.setAttribute('aria-pressed',!!state.svc[id]); setActive(id); hideErr('services'); renderRecap();
+  $('cats').addEventListener('click',function(e){
+    var b=e.target.closest('.cat'); if(!b) return; state.cat=b.getAttribute('data-c'); renderCats(); renderCards();
   });
-  $('rows').addEventListener('mouseover',function(e){var b=e.target.closest('.row'); if(b && window.matchMedia('(hover:hover)').matches) setActive(b.getAttribute('data-id'));});
-  $('rows').addEventListener('focusin',function(e){var b=e.target.closest('.row'); if(b) setActive(b.getAttribute('data-id'));});
+  $('rows').addEventListener('click',function(e){
+    var b=e.target.closest('.card'); if(!b) return;
+    var id=b.getAttribute('data-id'); state.svc[id]=!state.svc[id];
+    b.setAttribute('aria-pressed',!!state.svc[id]); setStage(b.getAttribute('data-img')); hideErr('services'); renderRecap();
+  });
+  $('rows').addEventListener('mouseover',function(e){var b=e.target.closest('.card'); if(b && window.matchMedia('(hover:hover)').matches) setStage(b.getAttribute('data-img'));});
+  $('rows').addEventListener('focusin',function(e){var b=e.target.closest('.card'); if(b) setStage(b.getAttribute('data-img'));});
+  $('prev').addEventListener('click',function(){moveMonth(-1)});
+  $('next').addEventListener('click',function(){moveMonth(1)});
   $('days').addEventListener('click',function(e){
-    var b=e.target.closest('.day'); if(!b||b.disabled) return;
-    state.day=b.getAttribute('data-key'); hideErr('day'); renderDays(); renderTimes(); renderRecap();
-    var tm=$('times'); tm.classList.remove('fresh'); void tm.offsetWidth; tm.classList.add('fresh');
+    var b=e.target.closest('button.day'); if(!b||b.disabled) return;
+    state.day=b.getAttribute('data-key'); hideErr('day'); renderCal(false); renderTimes(true); renderRecap();
+    if(window.innerWidth<960) setTimeout(function(){$('step-time').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'})},260);
   });
   $('times').addEventListener('click',function(e){
     var b=e.target.closest('.time'); if(!b) return;
-    state.time=b.getAttribute('data-time'); hideErr('time'); $('times').classList.remove('fresh'); renderTimes(); renderRecap();
+    state.time=b.getAttribute('data-time'); hideErr('time'); renderTimes(false); renderRecap();
+    if(window.innerWidth<960 && !$('f-name').value.trim()) setTimeout(function(){$('step-name').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'})},260);
   });
-  ['f-name','f-note'].forEach(function(id){$(id).addEventListener('input',function(){hideErr('name'); renderRecap();})});
+  $('f-name').addEventListener('input',function(){hideErr('name'); renderRecap();});
   function setLang(l){lang=l; try{localStorage.setItem('mahym-lang',l)}catch(e){} applyLang();}
   $('lang-en').addEventListener('click',function(){setLang('en')});
   $('lang-ru').addEventListener('click',function(){setLang('ru')});
   $('send').addEventListener('click',function(e){
     var m=missing(); if(!m){ this.href='https://wa.me/'+PHONE+'?text='+encodeURIComponent(message()); return; }
     e.preventDefault(); $('err-'+m).hidden=false;
-    var el=m==='services'? $('treatments') : m==='name'? $('f-name') : $('err-'+m);
-    el.scrollIntoView({behavior:'smooth',block:m==='services'?'start':'center'});
+    var el=m==='services'? $('treatments') : m==='name'? $('step-name') : m==='time'? $('step-time') : $('when');
+    el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
     if(m==='name') $('f-name').focus({preventScroll:true});
   });
-
   $('bar-btn').addEventListener('click',function(e){
-    if(this.getAttribute('data-m')==='name'){ e.preventDefault(); $('f-name').scrollIntoView({behavior:'smooth',block:'center'}); $('f-name').focus({preventScroll:true}); }
+    if(this.getAttribute('data-m')==='name'){ e.preventDefault(); $('step-name').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); $('f-name').focus({preventScroll:true}); }
   });
 
   /* ---- the work reel: one frame, contents change ---- */
   var reel=$('reel'), shots=reel.querySelectorAll('img'), shot=0, timer=null;
   function setCap(){ $('cap').textContent=CAPS[lang][shot]; }
   function next(){ shots[shot].classList.remove('on'); shot=(shot+1)%shots.length; shots[shot].classList.add('on'); setCap(); }
-  function play(){ if(timer||window.matchMedia('(prefers-reduced-motion:reduce)').matches) return; timer=setInterval(next,2800); }
+  function play(){ if(timer||reduce) return; timer=setInterval(next,2800); }
   function stop(){ clearInterval(timer); timer=null; }
   reel.addEventListener('click',function(){ stop(); next(); play(); });
 
   /* ---- the strip of small pictures ---- */
-  var strip=$('strip'), order=['interior','nails','lash2','hair','nails2','led','lash','nails3','hair2','mask'];
+  var strip=$('strip'), order=['interior','nails','lash2','hair','nails2','led','nails3','hair2'];
   order.concat(order).forEach(function(k){var im=new Image(); im.src='img/'+k+'.jpg'; im.alt=''; im.loading='lazy'; im.width=96; im.height=120; strip.appendChild(im);});
 
-  /* ---- scroll: entrances, the active row, the stage, the bar ---- */
-  var io=null;
-  function updateBar(){ $('bar').hidden=!(chosen().length && !sendSeen); }
+  /* ---- scroll: entrances, the stage, the bar ---- */
   function observe(){
-    if(!('IntersectionObserver' in window)){ Array.prototype.forEach.call(document.querySelectorAll('.rv'),function(el){el.classList.add('in')}); return; }
-    if(!io) io=new IntersectionObserver(function(es){es.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in'); io.unobserve(en.target);} })},{rootMargin:'0px 0px -8% 0px'});
-    Array.prototype.forEach.call(document.querySelectorAll('.rv:not(.in)'),function(el){io.observe(el)});
+    if(!('IntersectionObserver' in window)){ each(document.querySelectorAll('.rv'),function(el){el.classList.add('in')}); return; }
+    if(!io) io=new IntersectionObserver(function(es){es.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in'); io.unobserve(en.target);} })},{rootMargin:'0px 0px -6% 0px'});
+    each(document.querySelectorAll('.rv:not(.in)'),function(el){io.observe(el)});
   }
-  Array.prototype.forEach.call(document.querySelectorAll('.sec > h2, .sec > .sub, .range, .days, .times, .fields, .recap, .reel, .addr, .cells, .foot img'),function(el,i){el.classList.add('rv');});
+  each(document.querySelectorAll('.sec h2, .sec .sub, .step-n, .cats, .cal-head, .dow, .days, .times, .fields, .recap, .reel, .addr, .cells'),function(el){el.classList.add('rv');});
   if('IntersectionObserver' in window){
-    new IntersectionObserver(function(es){ sendSeen=es[0].isIntersecting; updateBar(); },{threshold:.6}).observe($('send'));
+    new IntersectionObserver(function(es){ sendSeen=es[0].isIntersecting; renderRecap(); },{threshold:.6}).observe($('send'));
     new IntersectionObserver(function(es,o){ if(es[0].isIntersecting){ $('word').classList.add('in'); o.disconnect(); } },{threshold:.5}).observe($('word'));
     new IntersectionObserver(function(es){ es[0].isIntersecting? play() : stop(); },{threshold:.4}).observe(reel);
-    var zones=[['top','hero'],['treatments',null],['when',null],['work','interior'],['find','hero']];
-    zones.forEach(function(z){
-      new IntersectionObserver(function(es){
-        if(!es[0].isIntersecting) { if(z[0]==='treatments') inTreat=false; return; }
-        if(z[0]==='treatments'||z[0]==='when'){ inTreat=z[0]==='treatments'; var it=ITEMS.filter(function(x){return x.id===state.active})[0]; setStage(it.img); }
-        else setStage(z[1]);
-      },{rootMargin:'-45% 0px -45% 0px'}).observe($(z[0]));
+    [['top','hero'],['work','interior'],['find','hero']].forEach(function(z){
+      new IntersectionObserver(function(es){ if(es[0].isIntersecting) setStage(z[1]); },{rootMargin:'-45% 0px -45% 0px'}).observe($(z[0]));
     });
   }
-  var ticking=false;
-  window.addEventListener('scroll',function(){
-    if(ticking) return; ticking=true;
-    requestAnimationFrame(function(){
-      ticking=false;
-      if(window.innerWidth>=960) return;
-      var b=band.parentNode.getBoundingClientRect(), line=b.bottom+90, best=null, bd=1e9;
-      if(b.top>1) return;
-      Array.prototype.forEach.call($('rows').children,function(r){var c=r.getBoundingClientRect(), d=Math.abs(c.top+30-line); if(d<bd){bd=d;best=r;}});
-      if(best && bd<400) setActive(best.getAttribute('data-id'));
-    });
-  },{passive:true});
 
-  /* open on a real working state: first day that still has times */
-  var first=dayList().filter(function(d){return slotsFor(d.key).length})[0];
-  state.day=first? first.key : dayList()[0].key;
-  show(band,'s_lash');
   applyLang();
 })();

@@ -38,39 +38,56 @@
       <div class="hero-pic"><img src="img/hero.jpg" alt="Lash extensions made at Mahym Beauty Salon" width="1100" height="1375"></div>
       <h1 class="title" data-t="h1">Book your visit to Mahym</h1>
       <p class="lead" data-t="lead"></p>
-      <a class="btn" href="#treatments" data-t="cta">Choose a treatment</a>
+      <a class="btn" href="#treatments" data-t="cta">Book a visit</a>
     </header>
 
     <section class="sec" id="treatments">
-      <h2 data-t="h-treat">Treatments and prices</h2>
-      <p class="sub" data-t="sub-treat">Tap to add. You can pick several for one visit.</p>
-      <div class="band" aria-hidden="true"><div class="frame" id="band"></div></div>
-      <div class="rows" id="rows"></div>
+      <p class="step-n" data-t="st1">Step 1 of 4</p>
+      <h2 data-t="h-treat">Choose a treatment</h2>
+      <p class="sub" data-t="sub-treat">You can pick several for one visit.</p>
+      <div class="cats" id="cats" role="group" aria-label="Category"></div>
+      <div class="cards" id="rows"></div>
       <p class="err" id="err-services" hidden data-t="e1">Choose at least one treatment first.</p>
     </section>
 
     <section class="sec when" id="when">
-      <h2 data-t="h-when">Day and time</h2>
-      <p class="sub" data-t="sub-when">Open every day from 10:00. Times are Dubai time.</p>
-      <p class="range" id="range"></p>
+      <p class="step-n" data-t="st2">Step 2 of 4</p>
+      <h2 data-t="h-date">Choose a date</h2>
+      <div class="cal-head">
+        <p class="range" id="range" aria-live="polite"></p>
+        <div class="cal-nav">
+          <button type="button" id="prev" aria-label="Previous month"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" id="next" aria-label="Next month"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
       <div class="dow" id="dow" aria-hidden="true"></div>
       <div class="days" id="days"></div>
-      <p class="err" id="err-day" hidden data-t="e2">Choose a day.</p>
-      <div class="times" id="times"></div>
-      <p class="err" id="err-time" hidden data-t="e3">Choose a time.</p>
-      <div class="fields">
-        <label class="vh" for="f-name" data-t="lname">Your name</label>
-        <input id="f-name" type="text" autocomplete="given-name" maxlength="60">
-        <label class="vh" for="f-note" data-t="lnote">Wishes, optional</label>
-        <input id="f-note" type="text" maxlength="200">
+      <p class="err" id="err-day" hidden data-t="e2">Choose a date.</p>
+
+      <div class="block" id="step-time">
+        <p class="step-n" data-t="st3">Step 3 of 4</p>
+        <h2 data-t="h-time">Preferred time</h2>
+        <p class="sub" data-t="sub-time">Dubai time. We confirm on WhatsApp whether this time is free.</p>
+        <div class="times" id="times"></div>
+        <p class="err" id="err-time" hidden data-t="e3">Choose a time.</p>
       </div>
-      <p class="err" id="err-name" hidden data-t="e4">Add your name so we know who is coming.</p>
-      <div class="recap">
-        <p id="recap-text"></p>
-        <p class="total" id="recap-total"></p>
+
+      <div class="block" id="step-name">
+        <p class="step-n" data-t="st4">Step 4 of 4</p>
+        <h2 data-t="h-name">Your name</h2>
+        <div class="fields">
+          <label class="vh" for="f-name" data-t="lname">Your name</label>
+          <input id="f-name" type="text" autocomplete="given-name" maxlength="60">
+        </div>
+        <p class="err" id="err-name" hidden data-t="e4">Add your name so we know who is coming.</p>
       </div>
-      <a class="btn inv" id="send" href="https://wa.me/971521934818"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.100L2 22l5-1.300A10 10 0 1 0 12 2Zm0 18.200a8.2 8.2 0 0 1-4.2-1.200l-.3-.2-3 .8.8-2.9-.2-.300A8.2 8.2 0 1 1 12 20.200Zm4.5-6.100c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.100l-.8 1c-.1.2-.3.2-.5.100a6.7 6.7 0 0 1-3.3-2.900c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.500l-.8-1.800c-.2-.5-.4-.4-.6-.400h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.200s.9 2.5 1.1 2.700c.1.2 1.9 2.9 4.6 4 1.7.7 2.4.7 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg><span data-t="send">Send request on WhatsApp</span></a>
-      <p class="fine" data-t="fine">Nothing is charged. We reply on WhatsApp to confirm your time.</p>
+
+      <div class="block" id="review">
+        <h2 data-t="h-review">Check your request</h2>
+        <dl class="recap" id="recap"></dl>
+        <a class="btn inv" id="send" href="https://wa.me/971521934818"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.200s.9 2.5 1.1 2.700c.1.2 1.9 2.9 4.6 4 1.7.7 2.4.7 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg><span data-t="send">Book on WhatsApp</span></a>
+        <p class="fine" data-t="fine">This opens WhatsApp with your request ready to send. Your booking is confirmed when the salon replies.</p>
+      </div>
     </section>
 
     <section class="sec work" id="work">
@@ -107,7 +124,7 @@
 
 <div class="bar" id="bar" hidden>
   <p><span id="bar-text"></span> <b id="bar-total"></b></p>
-  <a class="btn" id="bar-btn" href="#when">Choose a time</a>
+  <a class="btn" id="bar-btn" href="#when">Choose a date</a>
 </div>
 
 <script src="app.js"></script>
