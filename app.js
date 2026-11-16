@@ -1,6 +1,6 @@
 (function(){
   /* ---- salon data: edit here ---- */
-  var PHONE='971521934818', OPEN=10, LAST=20, AHEAD=60, TZ='Asia/Dubai';
+  var PHONE='971521934818', OPEN=10, LAST=21, AHEAD=60, TZ='Asia/Dubai';
   var CATS=['all','lashes','nails','hair','face','massage'];
   /* dur = approximate minutes, to be confirmed by the salon */
   var ITEMS=[
@@ -23,7 +23,7 @@
       'h-name':'Your name','h-review':'Your appointment request',lname:'Your name',send:'Confirm request via WhatsApp',
       fine:'This opens WhatsApp with your request ready to send. Your booking is confirmed when the salon replies.',
       'h-work':'Work from our chairs','h-find':'Find us in Spain Cluster',
-      addr:'Mahym Beauty Salon, Spain Cluster, International City, Dubai.',hours:'Open every day from 10:00.',
+      addr:'Mahym Beauty Salon, Spain Cluster, International City, Dubai.',hours:'Open every day, 10:00 – 22:00.',
       'c-map':'Open the map',foot:'Lashes, nails, hair and skin. International City, Dubai.',
       bar:'Choose a date',bartime:'Choose a time',barname:'Add your name',barsend:'Confirm via WhatsApp',
       e1:'Choose at least one treatment first.',e2:'Choose a date.',e3:'Choose a time.',e4:'Add your name so we know who is coming.',
@@ -42,7 +42,7 @@
       'h-name':'Ваше имя','h-review':'Ваша заявка на запись',lname:'Ваше имя',send:'Записаться через WhatsApp',
       fine:'Откроется WhatsApp с готовым сообщением, его останется отправить. Запись подтверждена, когда салон ответит.',
       'h-work':'Наши работы','h-find':'Мы в Spain Cluster',
-      addr:'Mahym Beauty Salon, Spain Cluster, International City, Дубай.',hours:'Каждый день с 10:00.',
+      addr:'Mahym Beauty Salon, Spain Cluster, International City, Дубай.',hours:'Каждый день с 10:00 до 22:00.',
       'c-map':'Открыть карту',foot:'Ресницы, ногти, волосы и кожа. International City, Дубай.',
       bar:'Выбрать дату',bartime:'Выбрать время',barname:'Указать имя',barsend:'Отправить в WhatsApp',
       e1:'Сначала выберите хотя бы одну услугу.',e2:'Выберите дату.',e3:'Выберите время.',e4:'Напишите имя, чтобы мы знали, кого ждать.',
@@ -62,7 +62,7 @@
       'h-name':'اسمكِ','h-review':'طلب الحجز',lname:'اسمكِ',send:'تأكيد الطلب عبر واتساب',
       fine:'سيفتح واتساب برسالة جاهزة للإرسال. يتم تأكيد الحجز عند ردّ الصالون.',
       'h-find':'موقعنا في الحي الإسباني',
-      addr:'صالون ماهيم للتجميل، الحي الإسباني، المدينة العالمية، دبي.',hours:'نفتح يومياً من الساعة 10:00.',
+      addr:'صالون ماهيم للتجميل، الحي الإسباني، المدينة العالمية، دبي.',hours:'نفتح يومياً من 10:00 إلى 22:00.',
       'c-map':'افتحي الخريطة',foot:'رموش، أظافر، شعر وبشرة. المدينة العالمية، دبي.',
       bar:'اختاري التاريخ',bartime:'اختاري الوقت',barname:'أضيفي اسمكِ',barsend:'التأكيد عبر واتساب',
       e1:'اختاري خدمة واحدة على الأقل أولاً.',e2:'اختاري التاريخ.',e3:'اختاري الوقت.',e4:'أضيفي اسمكِ لنعرف من سيحضر.',
