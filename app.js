@@ -4,14 +4,14 @@
   var CATS=['all','lashes','nails','hair','face','massage'];
   /* dur = approximate minutes, to be confirmed by the salon */
   var ITEMS=[
-    {id:'lash', cat:'lashes', price:99, dur:120, img:'s_lash', en:['Lash extensions','Any effect and volume: classic, cat eye, wet look.'], ru:['Наращивание ресниц','Любой эффект и объём: классика, cat eye, wet look.']},
-    {id:'nails', cat:'nails', price:199, dur:90, img:'s_nails', en:['Manicure, all inclusive','Any length, shape and design. Removal and refill included.'], ru:['Маникюр «всё включено»','Любая длина, форма и дизайн. Снятие и коррекция включены.']},
-    {id:'keratin', cat:'hair', price:300, from:true, dur:150, img:'s_hair', en:['Keratin for hair','Smooth, glossy hair. Price depends on length and thickness.'], ru:['Кератин для волос','Гладкие блестящие волосы. Цена зависит от длины и густоты.']},
-    {id:'rdf', cat:'face', price:250, dur:60, img:'s_facial', en:['Russian Deep Facial','A professional facial in 13 steps.'], ru:['Russian Deep Facial','Профессиональный уход в 13 этапов.']},
-    {id:'clean', cat:'face', price:250, dur:60, img:'s_cleanse', en:['Deep cleansing facial','A thorough clean for clear, fresh skin.'], ru:['Глубокая чистка лица','Тщательное очищение для чистой и свежей кожи.']},
-    {id:'bio', cat:'face', price:250, dur:45, img:'s_peel', en:['BioRePeel','A peel for glow and an even tone, no downtime.'], ru:['BioRePeel','Пилинг для сияния и ровного тона, без восстановления.']},
-    {id:'mface', cat:'massage', price:null, dur:30, img:'s_mface', en:['Face massage','Lifting massage for a rested face.'], ru:['Массаж лица','Лифтинг-массаж для отдохнувшего лица.']},
-    {id:'mbody', cat:'massage', price:null, dur:60, img:'s_mbody', en:['Body massage','Relaxing massage of the back and body.'], ru:['Массаж тела','Расслабляющий массаж спины и тела.']}
+    {id:'lash', cat:'lashes', price:99, dur:120, img:'s_lash', en:['Lash extensions','Any effect and volume: classic, cat eye, wet look.'], ru:['Наращивание ресниц','Любой эффект и объём: классика, cat eye, wet look.'], ar:['تركيب رموش','أي شكل وأي كثافة: كلاسيك، كات آي، ويت لوك.']},
+    {id:'nails', cat:'nails', price:199, dur:90, img:'s_nails', en:['Manicure, all inclusive','Any length, shape and design. Removal and refill included.'], ru:['Маникюр «всё включено»','Любая длина, форма и дизайн. Снятие и коррекция включены.'], ar:['مانيكير شامل','أي طول وشكل وتصميم. يشمل الإزالة وإعادة التعبئة.']},
+    {id:'keratin', cat:'hair', price:300, from:true, dur:150, img:'s_hair', en:['Keratin for hair','Smooth, glossy hair. Price depends on length and thickness.'], ru:['Кератин для волос','Гладкие блестящие волосы. Цена зависит от длины и густоты.'], ar:['كيراتين للشعر','شعر ناعم ولامع. السعر حسب طول الشعر وكثافته.']},
+    {id:'rdf', cat:'face', price:250, dur:60, img:'s_facial', en:['Russian Deep Facial','A professional facial in 13 steps.'], ru:['Russian Deep Facial','Профессиональный уход в 13 этапов.'], ar:['Russian Deep Facial','عناية احترافية بالوجه من 13 خطوة.']},
+    {id:'clean', cat:'face', price:250, dur:60, img:'s_cleanse', en:['Deep cleansing facial','A thorough clean for clear, fresh skin.'], ru:['Глубокая чистка лица','Тщательное очищение для чистой и свежей кожи.'], ar:['تنظيف عميق للبشرة','تنظيف شامل لبشرة صافية ومنتعشة.']},
+    {id:'bio', cat:'face', price:250, dur:45, img:'s_peel', en:['BioRePeel','A peel for glow and an even tone, no downtime.'], ru:['BioRePeel','Пилинг для сияния и ровного тона, без восстановления.'], ar:['BioRePeel','تقشير يمنح النضارة ويوحّد لون البشرة، بدون فترة تعافٍ.']},
+    {id:'mface', cat:'massage', price:null, dur:30, img:'s_mface', en:['Face massage','Lifting massage for a rested face.'], ru:['Массаж лица','Лифтинг-массаж для отдохнувшего лица.'], ar:['مساج الوجه','مساج شدّ لوجه مرتاح.']},
+    {id:'mbody', cat:'massage', price:null, dur:60, img:'s_mbody', en:['Body massage','Relaxing massage of the back and body.'], ru:['Массаж тела','Расслабляющий массаж спины и тела.'], ar:['مساج الجسم','مساج استرخاء للظهر والجسم.']}
   ];
   var T={
     en:{navfind:'Find us',h1:'Your Beauty, Your Moment.',
@@ -51,14 +51,34 @@
       h:'ч',min:'мин',prev:'Предыдущий месяц',next:'Следующий месяц',
       r:{sv:'Услуга',pr:'Стоимость',du:'Длительность',d:'Дата',t:'Время',n:'Имя'},notyet:'пока не выбрано',
       chosen:function(n){var a=n%10,b=n%100;return n+(a===1&&b!==11?' услуга':(a>=2&&a<=4&&(b<10||b>20)?' услуги':' услуг'))},
-      m:{hi:'Здравствуйте! Хочу записаться на процедуру.',sv:'Услуга',pr:'Стоимость',d:'Дата',t:'Время',n:'Имя',end:'Подскажите, пожалуйста, можно ли подтвердить мою запись?'}}
+      m:{hi:'Здравствуйте! Хочу записаться на процедуру.',sv:'Услуга',pr:'Стоимость',d:'Дата',t:'Время',n:'Имя',end:'Подскажите, пожалуйста, можно ли подтвердить мою запись?'}},
+    ar:{navfind:'موقعنا',h1:'جمالكِ، لحظتكِ.',
+      lead:'خدمات تجميل مصمّمة لكِ في دبي.',tags:'رموش · أظافر · شعر · بشرة',
+      cta:'احجزي موعداً',p1:'الخدمة',p2:'التاريخ',p3:'الوقت',p4:'الاسم',
+      'h-why':'لماذا ماهيم',w1t:'عدة خدمات في زيارة واحدة',w1:'الرموش والأظافر معاً، لتخرجي جاهزة تماماً.',w2t:'أسعار شاملة',w2:'المانيكير يشمل أي تصميم مع الإزالة وإعادة التعبئة.',w3t:'نفتح كل يوم',w3:'من الساعة 10:00، في الحي الإسباني، المدينة العالمية.',g1:'مانيكير',g2:'تركيب رموش',g3:'كيراتين',gnote:'أعمال حقيقية من صالوننا.',barnone:'احجزي الآن',
+      st1:'الخطوة 1 من 4',st2:'الخطوة 2 من 4',st3:'الخطوة 3 من 4',st4:'الخطوة 4 من 4',
+      'h-treat':'اختاري الخدمة','sub-treat':'يمكنكِ اختيار أكثر من خدمة في زيارة واحدة.',
+      'h-date':'اختاري التاريخ','h-time':'الوقت المفضّل','sub-time':'بتوقيت دبي. سنؤكد لكِ عبر واتساب إن كان الوقت متاحاً.',
+      'h-name':'اسمكِ','h-review':'طلب الحجز',lname:'اسمكِ',send:'تأكيد الطلب عبر واتساب',
+      fine:'سيفتح واتساب برسالة جاهزة للإرسال. يتم تأكيد الحجز عند ردّ الصالون.',
+      'h-find':'موقعنا في الحي الإسباني',
+      addr:'صالون ماهيم للتجميل، الحي الإسباني، المدينة العالمية، دبي.',hours:'نفتح يومياً من الساعة 10:00.',
+      'c-map':'افتحي الخريطة',foot:'رموش، أظافر، شعر وبشرة. المدينة العالمية، دبي.',
+      bar:'اختاري التاريخ',bartime:'اختاري الوقت',barname:'أضيفي اسمكِ',barsend:'التأكيد عبر واتساب',
+      e1:'اختاري خدمة واحدة على الأقل أولاً.',e2:'اختاري التاريخ.',e3:'اختاري الوقت.',e4:'أضيفي اسمكِ لنعرف من سيحضر.',
+      cat:{all:'الكل',lashes:'رموش',nails:'أظافر',hair:'شعر',face:'الوجه',massage:'مساج'},
+      from:'من',ask:'عند الطلب',cur:'درهم',ph:'مثلاً: عائشة',noslots:'لا توجد أوقات متبقية في هذا اليوم. اختاري يوماً آخر.',
+      h:'س',min:'د',prev:'الشهر السابق',next:'الشهر التالي',
+      r:{sv:'الخدمة',pr:'السعر',du:'المدة',d:'التاريخ',t:'الوقت',n:'الاسم'},notyet:'لم يتم الاختيار بعد',
+      chosen:function(n){return n===1?'خدمة واحدة':n===2?'خدمتان':n+' خدمات'},
+      m:{hi:'مرحباً! أرغب في حجز موعد.',sv:'الخدمة',pr:'السعر',d:'التاريخ',t:'الوقت',n:'الاسم',end:'هل يمكن تأكيد حجزي من فضلكم؟'}}
   };
 
   var $=function(id){return document.getElementById(id)};
   var each=function(list,fn){Array.prototype.forEach.call(list,fn)};
   var lang='en';
-  try{var s=localStorage.getItem('mahym-lang'); if(s==='ru'||s==='en') lang=s; else if((navigator.language||'').slice(0,2)==='ru') lang='ru';}
-  catch(e){ if((navigator.language||'').slice(0,2)==='ru') lang='ru'; }
+  try{var s=localStorage.getItem('mahym-lang'); if(s==='ru'||s==='en'||s==='ar') lang=s; else { var nl=(navigator.language||'').slice(0,2); if(nl==='ru'||nl==='ar') lang=nl; }}
+  catch(e){ var nl2=(navigator.language||'').slice(0,2); if(nl2==='ru'||nl2==='ar') lang=nl2; }
   var state={svc:{},cat:'all',day:null,time:null,view:null}, sendSeen=false, heroSeen=true, wasReady=false, stagePic='hero', io=null;
   var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   var TICK='<svg viewBox="0 0 14 14" fill="none" stroke="#FAF7F3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.4 5.9 10.2 11 4.3"/></svg>';
@@ -87,18 +107,18 @@
     return out;
   }
   function bookable(k){var t=Date.parse(k+'T00:00:00Z'), t0=todayUTC(); return t>=t0 && t<=t0+AHEAD*864e5 && slotsFor(k).length>0;}
-  function fmt(dt,o){o.timeZone='UTC'; return new Intl.DateTimeFormat(lang==='ru'?'ru-RU':'en-GB',o).format(dt);}
+  function fmt(dt,o){o.timeZone='UTC'; return new Intl.DateTimeFormat(lang==='ru'?'ru-RU':lang==='ar'?'ar-AE-u-nu-latn':'en-GB',o).format(dt);}
   function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 
   /* ---- money and durations ---- */
   function chosen(){return ITEMS.filter(function(it){return state.svc[it.id]});}
-  function priceText(it){var t=T[lang]; return it.price==null? t.ask : (it.from? t.from+' ':'')+it.price+' AED';}
+  function priceText(it){var t=T[lang]; return it.price==null? t.ask : (it.from? t.from+' ':'')+it.price+' '+(t.cur||'AED');}
   function durText(min){var t=T[lang], h=Math.floor(min/60), m=min%60; return '≈ '+(h? h+' '+t.h+(m?' ':''):'')+(m? m+' '+t.min:'');}
   function totalText(){
     var c=chosen(), t=T[lang], sum=0, open=false, ask=false; if(!c.length) return '';
     c.forEach(function(it){ if(it.price==null) ask=true; else{sum+=it.price; if(it.from) open=true;} });
     if(!sum) return cap(t.ask);
-    return (open? t.from+' ':'')+sum+' AED'+(ask? ' + '+t.ask:'');
+    return (open? t.from+' ':'')+sum+' '+(t.cur||'AED')+(ask? ' + '+t.ask:'');
   }
   function totalDur(){return chosen().reduce(function(a,it){return a+it.dur},0);}
 
@@ -129,7 +149,7 @@
     $('next').disabled=(v.y===last.getUTCFullYear() && v.m===last.getUTCMonth());
     $('prev').setAttribute('aria-label',T[lang].prev); $('next').setAttribute('aria-label',T[lang].next);
     var mon=new Date(Date.UTC(2024,0,1)), dow='';
-    for(var i=0;i<7;i++) dow+='<span>'+fmt(new Date(mon.getTime()+i*864e5),{weekday:'short'}).replace('.','')+'</span>';
+    for(var i=0;i<7;i++) dow+='<span>'+fmt(new Date(mon.getTime()+i*864e5),{weekday:lang==='ar'?'narrow':'short'}).replace('.','')+'</span>';
     $('dow').innerHTML=dow;
     var html=''; for(var b=0;b<shift;b++) html+='<span class="day off"></span>';
     for(var d=1;d<=days;d++){
@@ -159,7 +179,7 @@
   function message(){
     var m=T[lang].m, c=chosen();
     return [m.hi,'',
-      m.sv+': '+c.map(function(it){return it[lang][0]}).join(', '),'',
+      m.sv+': '+c.map(function(it){return it[lang][0]}).join(lang==='ar'?'\u060C ':', '),'',
       m.pr+': '+totalText(),'',
       m.d+': '+dayText(),'',
       m.t+': '+state.time,'',
@@ -188,7 +208,7 @@
   function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]});}
   function renderRecap(){
     var t=T[lang], c=chosen(), name=$('f-name').value.trim();
-    var rows=[[t.r.sv, c.map(function(it){return it[lang][0]}).join(', ')],[t.r.pr,totalText()],[t.r.du, c.length? durText(totalDur()):''],[t.r.d,dayText()],[t.r.t,state.time||''],[t.r.n,name]];
+    var rows=[[t.r.sv, c.map(function(it){return it[lang][0]}).join(lang==='ar'?'\u060C ':', ')],[t.r.pr,totalText()],[t.r.du, c.length? durText(totalDur()):''],[t.r.d,dayText()],[t.r.t,state.time||''],[t.r.n,name]];
     $('recap').innerHTML=rows.map(function(r){return '<div><dt>'+r[0]+'</dt><dd'+(r[1]?'':' class="empty"')+'>'+(r[1]? esc(r[1]) : t.notyet)+'</dd></div>'}).join('');
     $('bar-text').textContent=c.length? t.chosen(c.length)+' · '+durText(totalDur()) : '';
     tick($('bar-total'),totalText());
@@ -204,10 +224,10 @@
     each($('prog').children,function(el){ var k=el.getAttribute('data-s'); el.classList.toggle('done', k==='services'? c.length>0 : k==='day'? !!state.day : k==='time'? !!state.time : !!name); });
   }
   function applyLang(){
-    var t=T[lang]; document.documentElement.lang=lang;
+    var t=T[lang]; document.documentElement.lang=lang; document.documentElement.dir=lang==='ar'?'rtl':'ltr';
     each(document.querySelectorAll('[data-t]'),function(el){var k=el.getAttribute('data-t'); if(typeof t[k]==='string') el.textContent=t[k];});
     $('f-name').placeholder=t.ph;
-    $('lang-en').setAttribute('aria-pressed',lang==='en'); $('lang-ru').setAttribute('aria-pressed',lang==='ru');
+    $('lang-en').setAttribute('aria-pressed',lang==='en'); $('lang-ru').setAttribute('aria-pressed',lang==='ru'); $('lang-ar').setAttribute('aria-pressed',lang==='ar');
     renderCats(); renderCards(); renderCal(false); renderTimes(false); renderRecap();
   }
   function hideErr(k){$('err-'+k).hidden=true;}
@@ -239,6 +259,7 @@
   function setLang(l){lang=l; try{localStorage.setItem('mahym-lang',l)}catch(e){} applyLang();}
   $('lang-en').addEventListener('click',function(){setLang('en')});
   $('lang-ru').addEventListener('click',function(){setLang('ru')});
+  $('lang-ar').addEventListener('click',function(){setLang('ar')});
   $('send').addEventListener('click',function(e){
     var m=missing(); if(!m){ this.href='https://wa.me/'+PHONE+'?text='+encodeURIComponent(message()); return; }
     e.preventDefault(); $('err-'+m).hidden=false;
