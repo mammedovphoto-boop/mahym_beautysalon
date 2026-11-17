@@ -1,6 +1,6 @@
 (function(){
   /* ---- salon data: edit here ---- */
-  var PHONE='971521934818', OPEN=10, LAST=20, AHEAD=60, TZ='Asia/Dubai';
+  var PHONE='971521934818', OPEN=10, LAST=21, AHEAD=60, TZ='Asia/Dubai';
   /* ---- salon menu: edit prices here. n = [English, Русский, العربية]; o = old price; f = "from" price ---- */
   var PKG={gold:199, silver:120};   /* Gold: any 10 services, Silver: any 7 services */
   var CATS=['offers','nails','lashes','face','hair','wax','massage'];
